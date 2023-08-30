@@ -36,10 +36,19 @@ jobs:
         run: echo "NMS_TIMESTAMP=`date -u +"%Y-%m-%dT%H:%M:%SZ"`" >> $GITHUB_ENV
 
       - name: Set environment variable for base64 encoded config file
-        run: echo "NMS_CONFIG_FILE=`cat app-sfo-01/nginx.conf | base64 -w 0`" >> $GITHUB_ENV
+        run: echo "NGINX.CONF_CONFIG_FILE=`cat app-sfo-01/etc/nginx/nginx.conf | base64 -w 0`" >> $GITHUB_ENV
+
+      - name: Set environment variable for base64 encoded config file
+        run: echo "MIME.TYPES_CONFIG_FILE=`cat app-sfo-01/etc/nginx/mime.types | base64 -w 0`" >> $GITHUB_ENV
+
+      - name: Set environment variable for base64 encoded config file
+        run: echo "DEFAULT.CONF_CONFIG_FILE=`cat app-sfo-01/etc/nginx/conf.d/default.conf | base64 -w 0`" >> $GITHUB_ENV
+
+      - name: Set environment variable for base64 encoded config file
+        run: echo "SSL.CONF_CONFIG_FILE=`cat app-sfo-01/etc/nginx/conf.d/ssl.conf | base64 -w 0`" >> $GITHUB_ENV
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
           echo ${{ env.NMS_CONFIG_FILE }}
-          curl --location 'https://${{ vars.NMS_HOSTNAME }}/api/platform/v1/systems/45b85ba0-bedb-31a4-94c8-263855521496/instances/bbe4badb-e978-5cd9-ab1d-bc5be2fb228c/config' --header "accept: application/json" --header "Authorization: Basic ${{ env.NMS_LOGIN }}" --header 'Content-Type: application/json' --data '{"configFiles": {"rootDir": "/etc/nginx","files": [{"contents": "${{ env.NMS_CONFIG_FILE }}","name": "/etc/nginx/nginx.conf"}]},"updateTime": "${{ env.NMS_TIMESTAMP }}"}'
+          curl --location 'https://${{ vars.NMS_HOSTNAME }}/api/platform/v1/systems/45b85ba0-bedb-31a4-94c8-263855521496/instances/bbe4badb-e978-5cd9-ab1d-bc5be2fb228c/config' --header "accept: application/json" --header "Authorization: Basic ${{ env.NMS_LOGIN }}" --header 'Content-Type: application/json' --data '{"configFiles": {"rootDir": "/etc/nginx","files": [{"contents": "${{ env.NGINX.CONF_CONFIG_FILE }}","name": "/etc/nginx/nginx.conf"},{"contents": "${{ env.MIME.TYPES_CONFIG_FILE }}","name": "/etc/nginx/mime.types"},{"contents": "${{ env.DEFAULT.CONF_CONFIG_FILE }}","name": "/etc/nginx/conf.d/default.conf"},{"contents": "${{ env.SSL.CONF_CONFIG_FILE }}","name": "/etc/nginx/conf.d/ssl.conf"}]},"updateTime": "${{ env.NMS_TIMESTAMP }}"}'
