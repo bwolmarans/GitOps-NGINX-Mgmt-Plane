@@ -34,4 +34,4 @@ jobs:
         run: |
           export NMS_LOGIN=`echo -n "${{ secrets.NMS_USERNAME }}:${{ secrets.NMS_PASSWORD }}" | base64`
           echo $NMS_LOGIN
-          curl --location 'https://${{ vars.NMS_HOSTNAME }}/api/platform/v1/systems/45b85ba0-bedb-31a4-94c8-263855521496/instances/bbe4badb-e978-5cd9-ab1d-bc5be2fb228c/config' --header 'accept: application/json' --header 'Authorization: Basic ${NMS_LOGIN}'
+          curl --location "https://${{ vars.NMS_HOSTNAME }}/api/platform/v1/systems/45b85ba0-bedb-31a4-94c8-263855521496/instances/bbe4badb-e978-5cd9-ab1d-bc5be2fb228c/config" --header "accept: application/json" --header "Authorization: Basic ${NMS_LOGIN}"
