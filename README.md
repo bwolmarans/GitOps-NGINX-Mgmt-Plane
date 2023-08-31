@@ -2,62 +2,31 @@
 [![Community Support](https://badgen.net/badge/support/community/cyan?icon=awesome)](https://github.com/nginxinc/mtbChef/GitOps-NMS/blob/main/SUPPORT.md)
 <!-- [![Commercial Support](https://badgen.net/badge/support/commercial/cyan?icon=awesome)](<Insert URL>) -->
 
-# NGINX Template Repository
+# Demo: Managing NGINX Configs with Github
+This repository provides a sample Github Actions script that allows NGINX Instance Manager users to manage versioning and deployment of NGINX configurations via Github.
 
-## What is included on this template?
+## NGINX Configurations
+Configuration files are stored for each instance under management via a replica directory structure. See ```app-sfo-01``` for sample NGINX configurations.
 
-This template includes all the scaffolding you need to get started on a standards compliant NGINX repository:
+## Github Actions
+The repository is configured to run the ```GitOps-NMS/.github/workflows/push-to-nms.yml``` Github Action on any commit and pull-request merge to the main branch. The script works by:
 
-- Standard license for NGINX OSS projects
-- Standard `.gitignore` with minimal defaults
-- Issue and PR templates
-- Contributing guidelines
-- Support guidelines
-- Security guidelines for reporting major vulnerabilities
-- NGINX Code of Conduct
-- README placeholder. How you structure the README is up to you (although the template provides placeholder sections), but you will need to include:
-  - A [repostatus](https://www.repostatus.org/) badge
-  - A community and commercial support badge. Include the latter -- and replace the URL placeholder with the relevant support URL -- if this repository contains a commercially supported project. You can find a commented out example below the community badge in this README.
-  - An explicit link back to the [Apache License 2.0](https://github.com/nginxinc/template-repository/blob/main/LICENSE)
-  - An up to date copyright notice
-- Changelog placeholder. (Optional -- A changelog is recommended, but it is not required and can diverge in format from the placeholder here included.)
-- Codeowners placeholder. (Optional -- Codeowners is a useful GitHub feature, but not all repositories require them.)
+- Defining configuration files for a given instance in the repository
+- Encoding configuration files to base64
+- Pulling values from repository configuration variables (see table below)
+- Generating a timestamp
+- Incorporating all of these elements and sending an API call to the NGINX Management Suite instance accessible via the internet
 
-## How do I use this template?
+### Github Action Configuration Variables
+The ```push-to-nms.yml``` Github Action can be configured by changing the following variables within the Github Repository Settings:
 
-**DO NOT FORK** -- this template is meant to be used from the **[`Use this template`](https://github.com/nginxinc/template-repository/generate)** feature.
+| Variable Name | Type          | Value (Description)                             |
+|---------------|---------------|-------------------------------------------------|
+| NMS_HOSTNAME  | Repo Variable | Fully qualified domain name of the NMS instance |
+| NMS_USERNAME  | Repo Secret   | NMS username (default: admin)                   |
+| NMS_PASSWORD  | Repo Secret   | NMS password for given username                 |
 
-1. Click on **[`Use this template`](https://github.com/nginxinc/template-repository/generate)**
-2. Give a name to your project
-3. Wait until the first run of CI finishes (GitHub Actions will process the template and commit to your new repo)
-4. Clone your new project and tweak any of the placeholders if necessary. Pay special attention to the README!
-5. Happy coding!
-
-**NOTE**: **WAIT** until the first CI run on GitHub Actions finishes before cloning your new project.
-
----
-
-<!--  DELETE THE LINES ABOVE THIS AND WRITE YOUR PROJECT README BELOW -- PLACEHOLDER SECTIONS HAVE BEEN INCLUDED FOR YOUR CONVENIENCE -->
-
-[![Project Status: Concept – Minimal or no implementation has been done yet, or the repository is only intended to be a limited example, demo, or proof-of-concept.](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repostatus.org/#concept)
-
-# gitops_nms
-
-## Requirements
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam elit turpis, varius et arcu elementum, viverra rhoncus sem. Aliquam nec sodales magna, et egestas enim. Mauris lobortis ultrices euismod. Pellentesque in arcu lacus. Mauris cursus laoreet nulla, ac vehicula est. Vestibulum eu mauris quis lorem consectetur aliquam ac nec quam. Vestibulum commodo pharetra mi, at bibendum neque faucibus ut. Mauris et tortor sed sem consectetur eleifend ut non magna. Praesent feugiat placerat nibh, varius viverra orci bibendum sed. Vestibulum dapibus ex ut pulvinar facilisis. Quisque sodales enim et augue tempor mattis. Suspendisse finibus congue felis, ac blandit ligula. Praesent condimentum ultrices odio quis semper. Nunc ultrices, nibh quis mattis pellentesque, elit nulla bibendum felis, quis dapibus erat turpis ac urna.
-
-## Getting Started
-
-Duis sit amet sapien vel velit ornare vulputate. Nulla rutrum euismod risus ac efficitur. Curabitur in sagittis elit, a semper leo. Suspendisse malesuada aliquam velit, eu suscipit lorem vehicula at. Proin turpis lacus, semper in placerat in, accumsan non ipsum. Cras euismod, elit eget pretium laoreet, tortor nulla finibus tortor, nec hendrerit elit turpis ut eros. Quisque congue nisi id mauris molestie, eu condimentum dolor rutrum. Nullam eleifend elit ac lobortis tristique. Pellentesque nec tellus non mauris aliquet commodo a eu elit. Ut at feugiat metus, at tristique mauris. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;
-
-## How to Use
-
-Maecenas at vehicula justo. Suspendisse posuere elementum elit vel posuere. Etiam quis pulvinar massa. Integer tempor semper risus, vitae maximus eros ullamcorper vitae. In egestas, ex vitae gravida sodales, ipsum dolor varius est, et cursus lorem dui a mi. Morbi faucibus ut nisi id faucibus. Sed quis ullamcorper ex. In et dolor id nunc interdum suscipit.
-
-## Contributing
-
-Please see the [contributing guide](https://github.com/mtbChef/GitOps-NMS/blob/main/CONTRIBUTING.md) for guidelines on how to best contribute to this project.
+***Important*** Presently, the Github Action is configured to use Basic Authentication only. It does this by concatenating the username and password secrets, encoding the resulting string to base64 and including the encoded string as a request header in the NMS API call.
 
 ## License
 
