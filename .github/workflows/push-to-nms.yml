@@ -46,11 +46,6 @@ jobs:
 
       - name: Set environment variable for base64 encoded config file
         run: echo "SSL_CONF_CONFIG_FILE=`cat app-sfo-01/etc/nginx/conf.d/ssl.conf | base64 -w 0`" >> $GITHUB_ENV
-
-      - name: Alternate var setup
-        run: echo $CREDS
-        env:
-          CREDS: "${{ secrets.NMS_USERNAME }}:${{ secrets.NMS_PASSWORD }}"
         
       - name: API call to Instance Manager
         run: |
