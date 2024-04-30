@@ -30,6 +30,9 @@ jobs:
       - name: Set environment variable for N1SC API timestamp
         run: echo "N1SC_TIMESTAMP=`date -u +"%Y-%m-%dT%H:%M:%SZ"`" >> $GITHUB_ENV
 
+      - name: timestamp the config
+        run: date | cat - app-nyc-01/etc/nginx/nginx.conf > temp && mv temp app-nyc-01/etc/nginx/nginx.conf
+
       - name: Set environment variable for base64 encoded config file
         run: echo "NGINX_CONF_CONFIG_FILE=`cat app-nyc-01/etc/nginx/nginx.conf | base64 -w 0`" >> $GITHUB_ENV
 
