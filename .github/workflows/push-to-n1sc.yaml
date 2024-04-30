@@ -44,4 +44,4 @@ jobs:
 
       - name: API call to NGINX One Saas Console
         run: |
-          curl --location 'https://${{ vars.N1SC_HOSTNAME }}${{ vars.N1SC_API_PATH }}/${{ vars.N1SC_NAMESPACE }}/instances/' -H 'Authorization: Bearer ${{ secrets.XC_BEARER_TOKEN }}'
+          curl --location 'https://${{ vars.N1SC_HOSTNAME }}${{ vars.N1SC_API_PATH }}/${{ vars.N1SC_NAMESPACE }}/instances/summary' -H 'Authorization: Bearer ${{ secrets.XC_BEARER_TOKEN }}'
