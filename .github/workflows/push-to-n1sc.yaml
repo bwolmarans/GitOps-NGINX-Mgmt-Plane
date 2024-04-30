@@ -44,7 +44,7 @@ jobs:
         
       - name: API call to NGINX One Saas Console
         run: |
-          curl 'https://nginxone-team.staging.volterra.us/api/nginx/one/namespaces/default/instances/ -H "Authorization: Bearer APIToken KLNLGO5l+ls8ePR41QiwTjFc9OU="'
+          curl 'https://${{ vars.N1SC_HOSTNAME }}{{ vars.N1SC_API_PATH }}{{ vars.N1SC_NAMESPACE }}/instances/ -H "Authorization: Bearer APIToken KLNLGO5l+ls8ePR41QiwTjFc9OU="'
 		  
 		  
 		  
