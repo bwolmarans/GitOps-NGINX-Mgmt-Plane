@@ -41,10 +41,12 @@ jobs:
 
       - name: Set environment variable for base64 encoded config file
         run: echo "SSL_CONF_CONFIG_FILE=`cat app-sfo-01/etc/nginx/conf.d/ssl.conf | base64 -w 0`" >> $GITHUB_ENV
-        
+
       - name: API call to NGINX One Saas Console
+      #${{ vars.N1SC_HOSTNAME }}{{ vars.N1SC_API_PATH }}{{ vars.N1SC_NAMESPACE }}/instances/ -H "Authorization: Bearer APIToken KLNLGO5l+ls8ePR41QiwTjFc9OU="'
+	
         run: |
-          curl --location 'https://${{ vars.N1SC_HOSTNAME }}{{ vars.N1SC_API_PATH }}{{ vars.N1SC_NAMESPACE }}/instances/ -H "Authorization: Bearer APIToken KLNLGO5l+ls8ePR41QiwTjFc9OU="'
-		  
+          curl --location 'https://www.wolmarans.com'
+	  	  
 		  
 		  
