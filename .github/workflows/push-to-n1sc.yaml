@@ -40,10 +40,9 @@ jobs:
           echo "SSL_KEY=`cat app-sfo-01/etc/nginx/ssl/expiring.nginx.com.key | base64 -w 0`" >> $GITHUB_ENV
 
       - name: API call to NGINX One Saas Console
+        # var app-nyc-01_instance_summary=$(jq '.' instance_list.json)
         run: |
           curl --location 'https://${{ vars.N1SC_HOSTNAME }}${{ vars.N1SC_API_PATH }}/${{ vars.N1SC_NAMESPACE }}/instances/?filter_fields=instance_status&filter_ops=IN&filter_values=online&paginated=false' -H 'Authorization: Bearer ${{ secrets.XC_BEARER_TOKEN }}' > instance_list.json
-          # var app-nyc-01_instance_summary=$(jq '.' instance_list.json)
-          
 
       - name: API call to NGINX One Saas Console
         run: |
